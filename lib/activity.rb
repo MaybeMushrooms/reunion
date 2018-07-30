@@ -9,6 +9,7 @@ class Activity
     @participants = Hash.new(0)
     @base_cost = base_cost
     @cost_per_participant = cost_per_participant
+    @total_cost = total_cost
   end
     
   def add_participants(participant_name, ammount_paid)
@@ -25,5 +26,11 @@ class Activity
 
   def total_cost
     @base_cost + @cost_per_participant * @participants.count
+  end
+
+  def owed_or_owe_by_participants
+    @participants.transform_values do |ammount_paid|
+      fair_share - ammount_paid
+    end
   end
 end
